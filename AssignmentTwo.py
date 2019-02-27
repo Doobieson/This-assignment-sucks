@@ -1,113 +1,121 @@
 # DATA 211
 # ASSIGNMENT 2
-# RICARDO CRUZ (30074052) AND COOPER CHUNG (30061289)
+# NAME (ID): RICARDO CRUZ (30074052) AND COOPER CHUNG (30061289)
 # RICARDO CRUZ 50%, COOPER CHUNG 50%
 # LAB: B03
-# DATE: FEBRUARY 28th, Winter 2019
+# DATE: FEBRUARY 28th, 2019
+
+# Bar chart: line 22 - 301
+# Pie chart: line 306 - 550
 
 from SimpleGraphics import *
 
-# Introduce program, make user aware of choices (Add more comments)
+# Introduce program, notify user of choices
 print("There are two types of charts:")
 print("1 = Bar Chart")
 print("2 = Pie Chart")
 
-# Gather user input on what chart to produce
-graphType = int(input("What type of chart would you like to create?: "))
+graphType = int(input("What type of chart would you like to create?: ")) # Gather user input on what chart type to produce
 
-# Makes a loop to create either a bar chart or pie chart based on the value of "graphType"
+# Makes a loop to create a bar chart or pie chart based on the value of "graphType" (1 for bar, 2 for pie)
 if graphType == 1:
 
-    # Establishes useful constants (SUBJECT TO CHANGE, BAR SPACING IS INCOMPLETE)
-    BAR_WIDTH = 100
-    X_AXIS_LENGTH = 500
+    # Establishes useful constants
+    BAR_WIDTH = 80
+    X_AXIS_LENGTH = 500 # 500 pixels long to ensure 100 pixel margin on both sides
     X_AXIS_CENTER = 250
-    Y_AXIS_HEIGHT = 400
+    Y_AXIS_HEIGHT = 400 # 400 pixels tall because maximum height is 400
     Y_AXIS_CENTER = 200
-    BAR_SPACING = 50 ### MAKE CHANGE
     X_ORIGIN = 165
     Y_ORIGIN = 500
-    LABEL_SPACING = 30
-    LINE_SPACING = 15
+    LABEL_SPACING = 25  # Universal spacing for all labels on chart for continuity
 
-    # Gathers user input for title and number of bars
+    # Gathers user input for title, number of bars, gridline interval, and y-axis label
     barChartName = input("Enter a title for the chart: ")
-    yAxisName = input("Enter a name for the y-axis: ")
     barCount = int(input("How many bars would you like?: "))
+    intervalValue = int(input("What increment would you like the gridlines to increase by?: "))
+    yAxisName = input("Enter a name for the y-axis: ")
 
-    setColor("black") # TITLE
+    setColor("black") # Creates title (Height was arbitrary, subtracted 450 pixels instead of adding beacause the y-axis is flipped, also to make it look clean)
     setFont("Arial", "24", "bold")
     text(X_ORIGIN + X_AXIS_CENTER, Y_ORIGIN - 450, barChartName)
 
-    setColor("white") # CHART BACKGROUND
+    setColor("white") # Creates a white background for the chart for ease of vision
     rect(X_ORIGIN, Y_ORIGIN, X_AXIS_LENGTH, -Y_AXIS_HEIGHT)
 
-    setColor("black") # X-AXIS
+    setColor("black") # Creates x-axis, also uses the X_AXIS_LENGTH constant to ensure chart is 500 pixels wide
     line(X_ORIGIN, Y_ORIGIN, X_ORIGIN + X_AXIS_LENGTH, Y_ORIGIN)
 
-    setColor("black") # Y-AXIS
+    setColor("black") # Creates left-most y-axis. Subtracted the y-axis height because y-axis is flipped, also to ensure chart is exactly 400 pixels tall
     line(X_ORIGIN, Y_ORIGIN, X_ORIGIN, Y_ORIGIN - Y_AXIS_HEIGHT)
 
-    setColor("black") # Y-AXIS LABEL
+    setColor("black") # Creates the label for the leftmost y-axis, adjusted 25 pixels to the left using LABEL_SPACING to make it look clean.
     setFont("Arial", "10", "bold")
     text(X_ORIGIN - LABEL_SPACING, Y_ORIGIN - Y_AXIS_CENTER, yAxisName)
 
-    setColor("black") # Y-AXIS ON THE OTHER SIDE
+    setColor("black") # Creates right-most y-axis to complete the look of the graph
     line(X_ORIGIN + X_AXIS_LENGTH, Y_ORIGIN, X_ORIGIN + X_AXIS_LENGTH, Y_ORIGIN - Y_AXIS_HEIGHT)
 
-    setColor("black") # CREATES GRIDLINE FOR 100
-    line(X_ORIGIN, Y_ORIGIN - 100, X_ORIGIN + X_AXIS_LENGTH, Y_ORIGIN - 100)
+    intervalCount = 0 # Establishes a count to be used in the while loop for creating user input gridlines
 
-    setColor("black") # CREATES GRIDLINE FOR 200
-    line(X_ORIGIN, Y_ORIGIN - 200, X_ORIGIN + X_AXIS_LENGTH, Y_ORIGIN - 200)
+    # Establishes a while loop that creates gridlines and rulings from user input for interval
+    # Also uses 400 as the sentinel value because the maximum height of the chart is 400 pixels
+    while intervalCount <= 400:
+        setColor("black") # Creates gridlines
+        line(X_ORIGIN, Y_ORIGIN - intervalCount, X_ORIGIN + X_AXIS_LENGTH, Y_ORIGIN - intervalCount)
 
-    setColor("black") # CREATES GRIDLINE FOR 300
-    line(X_ORIGIN, Y_ORIGIN - 300, X_ORIGIN + X_AXIS_LENGTH, Y_ORIGIN - 300)
+        setColor("black") # Creates rulings
+        setFont("Arial", "10", "bold")
+        text(X_ORIGIN + X_AXIS_LENGTH + LABEL_SPACING, Y_ORIGIN - intervalCount, intervalCount)
 
-    setColor("black") # CREATES GRIDLINE FOR 400
-    line(X_ORIGIN, Y_ORIGIN - 400, X_ORIGIN + X_AXIS_LENGTH, Y_ORIGIN - 400)
+        intervalCount = intervalCount + intervalValue                   # This line is necessary to make the gridlines and rulings properly draw at the user specified interval
 
-    setColor("black") # 0 Y-AXIS MARKER
-    setFont("Arial", "10")
-    text(X_ORIGIN + X_AXIS_LENGTH + LABEL_SPACING, Y_ORIGIN, "0")
-
-    setColor("black") # 100 Y-AXIS MARKER
-    setFont("Arial", "10")
-    text(X_ORIGIN + X_AXIS_LENGTH + LABEL_SPACING, Y_ORIGIN - 100, "100")
-
-    setColor("black") # 200 Y-AXIS MARKER
-    setFont("Arial", "10")
-    text(X_ORIGIN + X_AXIS_LENGTH + LABEL_SPACING, Y_ORIGIN - 200, "200")
-
-    setColor("black") # 300 Y-AXIS MARKER
-    setFont("Arial", "10")
-    text(X_ORIGIN + X_AXIS_LENGTH + LABEL_SPACING, Y_ORIGIN - 300, "300")
-
-    setColor("black") # 400 Y-AXIS MARKER
-    setFont("Arial", "10")
-    text(X_ORIGIN + X_AXIS_LENGTH + LABEL_SPACING, Y_ORIGIN - 400, "400")
-
-    # These "if/elif barCount == #:" loops (line 72 - 191) are used to create the number of bars the user specifies (INCOMPLETE, GOAL IS TO SHRINK THIS DOWN TO MORE EFFICIENT CODE)
+    # These "if/elif barCount == #: " loops (line 74 - 303) are used to create the entire bar chart based on user input
     if barCount == 2:
-        barOneHeight = int(input("Enter a height for the first bar: "))
+        BAR_SPACING = 170                                               # Establishes calculated useful constants to make chart look clean
+        BAR_ONE_CENTER = 210                                            # (different depending on how many bars must be drawn)
+        BAR_TWO_CENTER = 290
+
+        barOneLabel = input("Enter a name for the first bar: ")         # Gathers user input for bar labels, height, and colour (more bars = more user inputs)
+        barOneHeight = int(input("Enter a value for the first bar: "))
         barOneColour = input("Pick a colour for the first bar: ")
 
-        barTwoHeight = int(input("Enter a height for the second bar: "))
+        barTwoLabel = input("Enter a name for the second bar: ")
+        barTwoHeight = int(input("Enter a value for the second bar: "))
         barTwoColour = input("Pick a colour for the second bar: ")
 
+        # Draws the chart using rectangles and user specified values
         setFill(barOneColour)
         rect(X_ORIGIN + BAR_SPACING, Y_ORIGIN - barOneHeight, BAR_WIDTH, barOneHeight)
 
         setFill(barTwoColour)
         rect(X_ORIGIN + BAR_WIDTH + BAR_SPACING, Y_ORIGIN - barTwoHeight, BAR_WIDTH, barTwoHeight)
+
+        # Creates the labels under and on top of the bars
+        setColor("black")
+        setFont("Arial", "10", "bold")
+        text(X_ORIGIN  + BAR_ONE_CENTER, Y_ORIGIN + LABEL_SPACING, barOneLabel)
+        text(X_ORIGIN  + BAR_ONE_CENTER, Y_ORIGIN - barOneHeight + LABEL_SPACING, barOneHeight)
+        text(X_ORIGIN  + BAR_TWO_CENTER, Y_ORIGIN + LABEL_SPACING, barTwoLabel)
+        text(X_ORIGIN  + BAR_TWO_CENTER, Y_ORIGIN - barTwoHeight + LABEL_SPACING, barTwoHeight)
+
+        # This process is repeated for up to 6 bars. More bars = Different constants =  More user inputs = More rectangles = More labels
     elif barCount == 3:
-        barOneHeight = int(input("Enter a height for the first bar: "))
+        BAR_SPACING = 130
+        BAR_ONE_CENTER = 170
+        BAR_TWO_CENTER = 250
+        BAR_THREE_CENTER = 330
+
+        barOneLabel = input("Enter a name for the first bar: ")
+        barOneHeight = int(input("Enter a value for the first bar: "))
         barOneColour = input("Pick a colour for the first bar: ")
 
-        barTwoHeight = int(input("Enter a height for the second bar: "))
+        barTwoLabel = input("Enter a name for the second bar: ")
+        barTwoHeight = int(input("Enter a value for the second bar: "))
         barTwoColour = input("Pick a colour for the second bar: ")
 
-        barThreeHeight = int(input("Enter a height for the third bar: "))
+        barThreeLabel = input("Enter a name for the third bar: ")
+        barThreeHeight = int(input("Enter a value for the third bar: "))
         barThreeColour = input("Pick a colour for the third bar: ")
 
         setFill(barOneColour)
@@ -118,17 +126,36 @@ if graphType == 1:
 
         setFill(barThreeColour)
         rect(X_ORIGIN + 2 * BAR_WIDTH + BAR_SPACING, Y_ORIGIN - barThreeHeight, BAR_WIDTH, barThreeHeight)
-    elif barCount == 4: 
-        barOneHeight = int(input("Enter a height for the first bar: "))
+
+        setColor("black")
+        setFont("Arial", "10", "bold")
+        text(X_ORIGIN  + BAR_ONE_CENTER, Y_ORIGIN + LABEL_SPACING, barOneLabel)
+        text(X_ORIGIN  + BAR_ONE_CENTER, Y_ORIGIN - barOneHeight + LABEL_SPACING, barOneHeight)
+        text(X_ORIGIN  + BAR_TWO_CENTER, Y_ORIGIN + LABEL_SPACING, barTwoLabel)
+        text(X_ORIGIN  + BAR_TWO_CENTER, Y_ORIGIN - barTwoHeight + LABEL_SPACING, barTwoHeight)
+        text(X_ORIGIN  + BAR_THREE_CENTER, Y_ORIGIN + LABEL_SPACING, barThreeLabel)
+        text(X_ORIGIN  + BAR_THREE_CENTER, Y_ORIGIN - barThreeHeight + LABEL_SPACING, barThreeHeight)
+    elif barCount == 4:
+        BAR_SPACING = 90
+        BAR_ONE_CENTER = 130
+        BAR_TWO_CENTER = 210
+        BAR_THREE_CENTER = 290
+        BAR_FOUR_CENTER = 370
+
+        barOneLabel = input("Enter a name for the first bar: ")
+        barOneHeight = int(input("Enter a value for the first bar: "))
         barOneColour = input("Pick a colour for the first bar: ")
 
-        barTwoHeight = int(input("Enter a height for the second bar: "))
+        barTwoLabel = input("Enter a name for the second bar: ")
+        barTwoHeight = int(input("Enter a value for the second bar: "))
         barTwoColour = input("Pick a colour for the second bar: ")
 
-        barThreeHeight = int(input("Enter a height for the third bar: "))
+        barThreeLabel = input("Enter a name for the third bar: ")
+        barThreeHeight = int(input("Enter a value for the third bar: "))
         barThreeColour = input("Pick a colour for the third bar: ")
 
-        barFourHeight = int(input("Enter a height for the fourth bar: "))
+        barFourLabel = input("Enter a name for the fourth bar: ")
+        barFourHeight = int(input("Enter a value for the fourth bar: "))
         barFourColour = input("Pick a colour for the fourth bar: ")
 
         setFill(barOneColour)
@@ -142,20 +169,43 @@ if graphType == 1:
 
         setFill(barFourColour)
         rect(X_ORIGIN + 3 * BAR_WIDTH + BAR_SPACING, Y_ORIGIN - barFourHeight, BAR_WIDTH, barFourHeight)
-    elif barCount == 5: 
-        barOneHeight = int(input("Enter a height for the first bar: "))
+
+        setColor("black")
+        setFont("Arial", "10", "bold")
+        text(X_ORIGIN  + BAR_ONE_CENTER, Y_ORIGIN + LABEL_SPACING, barOneLabel)
+        text(X_ORIGIN  + BAR_ONE_CENTER, Y_ORIGIN - barOneHeight + LABEL_SPACING, barOneHeight)
+        text(X_ORIGIN  + BAR_TWO_CENTER, Y_ORIGIN + LABEL_SPACING, barTwoLabel)
+        text(X_ORIGIN  + BAR_TWO_CENTER, Y_ORIGIN - barTwoHeight + LABEL_SPACING, barTwoHeight)
+        text(X_ORIGIN  + BAR_THREE_CENTER, Y_ORIGIN + LABEL_SPACING, barThreeLabel)
+        text(X_ORIGIN  + BAR_THREE_CENTER, Y_ORIGIN - barThreeHeight + LABEL_SPACING, barThreeHeight)
+        text(X_ORIGIN  + BAR_FOUR_CENTER, Y_ORIGIN + LABEL_SPACING, barFourLabel)
+        text(X_ORIGIN  + BAR_FOUR_CENTER, Y_ORIGIN - barFourHeight + LABEL_SPACING, barFourHeight)
+    elif barCount == 5:
+        BAR_SPACING = 50
+        BAR_ONE_CENTER = 90
+        BAR_TWO_CENTER = 170
+        BAR_THREE_CENTER = 250
+        BAR_FOUR_CENTER = 330
+        BAR_FIVE_CENTER = 410
+
+        barOneLabel = input("Enter a name for the first bar: ")
+        barOneHeight = int(input("Enter a value for the first bar: "))
         barOneColour = input("Pick a colour for the first bar: ")
 
-        barTwoHeight = int(input("Enter a height for the second bar: "))
+        barTwoLabel = input("Enter a name for the second bar: ")
+        barTwoHeight = int(input("Enter a value for the second bar: "))
         barTwoColour = input("Pick a colour for the second bar: ")
 
-        barThreeHeight = int(input("Enter a height for the third bar: "))
+        barThreeLabel = input("Enter a name for the third bar: ")
+        barThreeHeight = int(input("Enter a value for the third bar: "))
         barThreeColour = input("Pick a colour for the third bar: ")
 
-        barFourHeight = int(input("Enter a height for the fourth bar: "))
+        barFourLabel = input("Enter a name for the fourth bar: ")
+        barFourHeight = int(input("Enter a value for the fourth bar: "))
         barFourColour = input("Pick a colour for the fourth bar: ")
 
-        barFiveHeight = int(input("Enter a height for the fifth bar: "))
+        barFiveLabel = input("Enter a name for the fifth bar: ")
+        barFiveHeight = int(input("Enter a value for the fifth bar: "))
         barFiveColour = input("Pick a colour for the fifth bar: ")
 
         setFill(barOneColour)
@@ -172,23 +222,50 @@ if graphType == 1:
 
         setFill(barFiveColour)
         rect(X_ORIGIN + 4 * BAR_WIDTH + BAR_SPACING, Y_ORIGIN - barFiveHeight, BAR_WIDTH, barFiveHeight)
-    elif barCount == 6: 
-        barOneHeight = int(input("Enter a height for the first bar: "))
+
+        setColor("black")
+        setFont("Arial", "10", "bold")
+        text(X_ORIGIN  + BAR_ONE_CENTER, Y_ORIGIN + LABEL_SPACING, barOneLabel)
+        text(X_ORIGIN  + BAR_ONE_CENTER, Y_ORIGIN - barOneHeight + LABEL_SPACING, barOneHeight)
+        text(X_ORIGIN  + BAR_TWO_CENTER, Y_ORIGIN + LABEL_SPACING, barTwoLabel)
+        text(X_ORIGIN  + BAR_TWO_CENTER, Y_ORIGIN - barTwoHeight + LABEL_SPACING, barTwoHeight)
+        text(X_ORIGIN  + BAR_THREE_CENTER, Y_ORIGIN + LABEL_SPACING, barThreeLabel)
+        text(X_ORIGIN  + BAR_THREE_CENTER, Y_ORIGIN - barThreeHeight + LABEL_SPACING, barThreeHeight)
+        text(X_ORIGIN  + BAR_FOUR_CENTER, Y_ORIGIN + LABEL_SPACING, barFourLabel)
+        text(X_ORIGIN  + BAR_FOUR_CENTER, Y_ORIGIN - barFourHeight + LABEL_SPACING, barFourHeight)
+        text(X_ORIGIN  + BAR_FIVE_CENTER, Y_ORIGIN + LABEL_SPACING, barFiveLabel)
+        text(X_ORIGIN  + BAR_FIVE_CENTER, Y_ORIGIN - barFiveHeight + LABEL_SPACING, barFiveHeight)
+    elif barCount == 6:
+        BAR_SPACING = 10
+        BAR_ONE_CENTER = 50
+        BAR_TWO_CENTER = 130
+        BAR_THREE_CENTER = 210
+        BAR_FOUR_CENTER = 290
+        BAR_FIVE_CENTER = 370
+        BAR_SIX_CENTER = 450
+
+        barOneLabel = input("Enter a name for the first bar: ")
+        barOneHeight = int(input("Enter a value for the first bar: "))
         barOneColour = input("Pick a colour for the first bar: ")
 
-        barTwoHeight = int(input("Enter a height for the second bar: "))
+        barTwoLabel = input("Enter a name for the second bar: ")
+        barTwoHeight = int(input("Enter a value for the second bar: "))
         barTwoColour = input("Pick a colour for the second bar: ")
 
-        barThreeHeight = int(input("Enter a height for the third bar: "))
+        barThreeLabel = input("Enter a name for the third bar: ")
+        barThreeHeight = int(input("Enter a value for the third bar: "))
         barThreeColour = input("Pick a colour for the third bar: ")
 
-        barFourHeight = int(input("Enter a height for the fourth bar: "))
+        barFourLabel = input("Enter a name for the fourth bar: ")
+        barFourHeight = int(input("Enter a value for the fourth bar: "))
         barFourColour = input("Pick a colour for the fourth bar: ")
 
-        barFiveHeight = int(input("Enter a height for the fifth bar: "))
+        barFiveLabel = input("Enter a name for the fifth bar: ")
+        barFiveHeight = int(input("Enter a value for the fifth bar: "))
         barFiveColour = input("Pick a colour for the fifth bar: ")
 
-        barSixHeight = int(input("Enter a height for the sixth bar: "))
+        barSixLabel = input("Enter a name for the sixth bar: ")
+        barSixHeight = int(input("Enter a value for the sixth bar: "))
         barSixColour = input("Pick a colour for the sixth bar: ")
 
         setFill(barOneColour)
@@ -208,7 +285,24 @@ if graphType == 1:
 
         setFill(barSixColour)
         rect(X_ORIGIN + 5 * BAR_WIDTH + BAR_SPACING, Y_ORIGIN - barSixHeight, BAR_WIDTH, barSixHeight)
-    print("Your chart is completed")
+
+        setColor("black")
+        setFont("Arial", "10", "bold")
+        text(X_ORIGIN  + BAR_ONE_CENTER, Y_ORIGIN + LABEL_SPACING, barOneLabel)
+        text(X_ORIGIN  + BAR_ONE_CENTER, Y_ORIGIN - barOneHeight + LABEL_SPACING, barOneHeight)
+        text(X_ORIGIN  + BAR_TWO_CENTER, Y_ORIGIN + LABEL_SPACING, barTwoLabel)
+        text(X_ORIGIN  + BAR_TWO_CENTER, Y_ORIGIN - barTwoHeight + LABEL_SPACING, barTwoHeight)
+        text(X_ORIGIN  + BAR_THREE_CENTER, Y_ORIGIN + LABEL_SPACING, barThreeLabel)
+        text(X_ORIGIN  + BAR_THREE_CENTER, Y_ORIGIN - barThreeHeight + LABEL_SPACING, barThreeHeight)
+        text(X_ORIGIN  + BAR_FOUR_CENTER, Y_ORIGIN + LABEL_SPACING, barFourLabel)
+        text(X_ORIGIN  + BAR_FOUR_CENTER, Y_ORIGIN - barFourHeight + LABEL_SPACING, barFourHeight)
+        text(X_ORIGIN  + BAR_FIVE_CENTER, Y_ORIGIN + LABEL_SPACING, barFiveLabel)
+        text(X_ORIGIN  + BAR_FIVE_CENTER, Y_ORIGIN - barFiveHeight + LABEL_SPACING, barFiveHeight)
+        text(X_ORIGIN  + BAR_SIX_CENTER, Y_ORIGIN + LABEL_SPACING, barSixLabel)
+        text(X_ORIGIN  + BAR_SIX_CENTER, Y_ORIGIN - barSixHeight + LABEL_SPACING, barSixHeight)
+    print("Your chart is completed") # To notify user the completion of their chart
+
+# The process for making a pie chart starts here
 elif graphType == 2:
 
     pieChartName = input("Enter a title for the chart: ")
@@ -455,4 +549,4 @@ elif graphType == 2:
         rect(42, 525, 40, 40)
     print("Your chart is completed")
 else:
-    print("You have entered an invalid number. Please try again")
+    print("You have entered an invalid number. Please try again") # Just in case user actually DOES mis-input a number
