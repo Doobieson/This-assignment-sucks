@@ -5,8 +5,8 @@
 # LAB: B03
 # DATE: FEBRUARY 28th, 2019
 
-# Bar chart: line 22 - 301
-# Pie chart: line 306 - 550
+# Bar chart: line 21 - 303
+# Pie chart: line 306 - 564
 
 from SimpleGraphics import *
 
@@ -305,63 +305,77 @@ if graphType == 1:
 # The process for making a pie chart starts here
 elif graphType == 2:
 
+    # Gathers user input for title
     pieChartName = input("Enter a title for the chart: ")
-
+    # Sets title font, size and attributes
     setFont("Arial", "24", "bold")
     text(400, 50, pieChartName)
 
-    diameter = int(input("What would you like the diameter of the pie chart to be?: "))
-    width = height = diameter
-
-    ORIGIN = 360
-
+    # Establishes useful constants
+    # Pie chart details
+    DIAMETER = int(input("What would you like the diameter of the pie chart to be?: ")) # This asks the user for input on the diameter of the pie chart
+    WIDTH = HEIGHT = DIAMETER  # This establishes how wide and how tall the pie chart should be, based off the diamater 
+    TOTALANGLE = 360 # 360 degrees in a full pie chart rotation
+    X_PIE_ORIGIN=200 # 200 pixels away from the left portion of the window, to relatively place the pie chart in the middle of the window
+    Y_PIE_ORIGIN=100 # 200 pixels away from the top portion of the window, to relatively place the pie chart in the middle of the window
+    
+    # asks the user for input on the quanitity of slices for pie chart
     sliceCount = int(input("How many pie slices would you like the chart to have?: "))
     
+    # Sets an if-elif loop for each specific number of slices you input
     if sliceCount == 2:
+
+        # Asks for user input regarding the name, size and colour of the slice
         sliceOneName = input("What would you like to name the first pie slice?: ")
         sliceOneSize = int(input("From 0 to 359, how large would you like your first pie slice to be?: "))
         sliceOneColour = input("What would you like the colour of the first slice to be?: ")
 
+        # Tells the user that the size of the slice remaining is already stablished
         print("The second slice size will be based off your first slice")
         sliceTwoName = input("What would you like to name the second pie slice?: ")
         sliceTwoColour = input("What would you like the colour of the second slice to be?: ")
 
+        # Creates each slice based on the constants, and variables set, such as colour and size
         setFill(sliceOneColour)
-        pieSlice(200, 100, width, height, 0, sliceOneSize)
+        pieSlice(X_PIE_ORIGIN, Y_PIE_ORIGIN, WIDTH, HEIGHT, 0, sliceOneSize)
 
         setFill(sliceTwoColour)
-        pieSlice(200, 100, width, height, sliceOneSize, ORIGIN - sliceOneSize)
+        pieSlice(X_PIE_ORIGIN, Y_PIE_ORIGIN, WIDTH, HEIGHT, sliceOneSize, TOTALANGLE - sliceOneSize)
 
+        # Creates a word legend with specific locations set to the left of the chart, specific font and size
         setFont("Arial", "18")
         text(60, 50, sliceOneName)
         text(60, 140, sliceTwoName)
 
+        # Creates a colour legend to go along with the word legend, based on colour chosen for each slice
         setFill(sliceOneColour)
         rect(42, 75, 40, 40)
 
         setFill(sliceTwoColour)
         rect(42, 165, 40, 40)
+        
+        # Repeats process for each "elif" statement, adding depending on the additional slices
     elif sliceCount == 3:
         sliceOneName = input("What would you like to name the first pie slice?: ")
         sliceOneSize = int(input("From 0 to 358, how large would you like your first pie slice to be?: "))
         sliceOneColour = input("What would you like the colour of the first slice to be?: ")
 
         sliceTwoName = input("What would you like to name the second pie slice?: ")
-        sliceTwoSize = int(input("From size of the first slice to 359, how large would you like your second pie slice to be?: "))
+        sliceTwoSize = int(input("From 0 to (359-size of the first slice), how large would you like your second pie slice to be ?: "))
         sliceTwoColour = input("What would you like the colour of the second slice to be?: ")
 
         print("The third slice size will be based off your other two slices")
         sliceThreeName = input("What would you like to name the third pie slice?: ")
-        sliceThreeColour=input("what would you like the colour of the second slice to be?: ")
+        sliceThreeColour=input("what would you like the colour of the third slice to be?: ")
 
         setFill(sliceOneColour)
-        pieSlice(200, 100, width, height, 0, sliceOneSize)
+        pieSlice(X_PIE_ORIGIN, Y_PIE_ORIGIN, WIDTH, HEIGHT, 0, sliceOneSize)
 
         setFill(sliceTwoColour)
-        pieSlice(200, 100, width, height, sliceOneSize, sliceTwoSize - sliceOneSize)
+        pieSlice(X_PIE_ORIGIN, Y_PIE_ORIGIN, WIDTH, HEIGHT, sliceOneSize, sliceTwoSize)
 
         setFill(sliceThreeColour)
-        pieSlice(200, 100, width, height, sliceTwoSize, ORIGIN - sliceTwoSize)
+        pieSlice(X_PIE_ORIGIN, Y_PIE_ORIGIN, WIDTH, HEIGHT, sliceTwoSize + sliceOneSize, TOTALANGLE - sliceTwoSize - sliceOneSize)
         
         setFont("Arial", "18")
         text(60, 50, sliceOneName)
@@ -382,11 +396,11 @@ elif graphType == 2:
         sliceOneColour = input("What would you like the colour of the first slice to be?: ")
 
         sliceTwoName = input("What would you like to name the second pie slice?: ")
-        sliceTwoSize = int(input("From size of the first slice to 358, how large would you like your second pie slice to be?: "))
+        sliceTwoSize = int(input("From 0 to (358-size of the first slice), how large would you like your second pie slice to be?: "))
         sliceTwoColour = input("What would you like the colour of the second slice to be?: ")
 
         sliceThreeName = input("What would you like to name the third pie slice?: ")
-        sliceThreeSize = int(input("From size of the second slice to 359, how large would you like your third pie slice to be?: "))
+        sliceThreeSize = int(input("From 0 to (359-size of the first and second slice), how large would you like your third pie slice to be?: "))
         sliceThreeColour = input("What would you like the colour of the third slice to be?: ")
 
         print("The fourth slice size will be based off your other three slices")
@@ -394,16 +408,16 @@ elif graphType == 2:
         sliceFourColour = input("What would you like the colour of the fourth slice to be?: ")
 
         setFill(sliceOneColour)
-        pieSlice(200, 100, width, height, 0, sliceOneSize)
+        pieSlice(X_PIE_ORIGIN, Y_PIE_ORIGIN, WIDTH, HEIGHT, 0, sliceOneSize)
 
         setFill(sliceTwoColour)
-        pieSlice(200, 100, width, height, sliceOneSize, sliceTwoSize - sliceOneSize)
+        pieSlice(X_PIE_ORIGIN, Y_PIE_ORIGIN, WIDTH, HEIGHT, sliceOneSize, sliceTwoSize)
 
         setFill(sliceThreeColour)
-        pieSlice(200, 100, width, height, sliceTwoSize, sliceThreeSize - sliceTwoSize)
+        pieSlice(X_PIE_ORIGIN, Y_PIE_ORIGIN, WIDTH, HEIGHT, sliceTwoSize + sliceOneSize, sliceThreeSize)
 
         setFill(sliceFourColour)
-        pieSlice(200, 100, width, height, sliceThreeSize, ORIGIN - sliceThreeSize)
+        pieSlice(X_PIE_ORIGIN, Y_PIE_ORIGIN, WIDTH, HEIGHT, sliceThreeSize + sliceTwoSize + sliceOneSize, TOTALANGLE - sliceThreeSize - sliceTwoSize - sliceOneSize)
 
         setFont("Arial", "18")
         text(60, 50, sliceOneName)
@@ -424,19 +438,19 @@ elif graphType == 2:
         rect(42, 345, 40, 40)
     elif sliceCount == 5:
         sliceOneName = input("What would you like to name the first pie slice?: ")
-        sliceOneSize = int(input("From 0 to 355, how large would you like your first pie slice to be?: "))
+        sliceOneSize = int(input("From 0 to 356, how large would you like your first pie slice to be?: "))
         sliceOneColour = input("What would you like the colour of the first slice to be?: ")
 
         sliceTwoName = input("What would you like to name the second pie slice?: ")
-        sliceTwoSize = int(input("From size of the first slice to 356, how large would you like your second pie slice to be?: "))
+        sliceTwoSize = int(input("From 0 to (357-size of the first slice), how large would you like your second pie slice to be?: "))
         sliceTwoColour = input("What would you like the colour of the second slice to be?: ")
 
         sliceThreeName = input("What would you like to name the third pie slice?: ")
-        sliceThreeSize = int(input("From size of the second slice to 357, how large would you like your third pie slice to be?: "))
+        sliceThreeSize = int(input("From 0 to (358-size of the first and second slice), how large would you like your third pie slice to be?: "))
         sliceThreeColour = input("What would you like the colour of the third slice to be?: ")
 
         sliceFourName = input("What would you like to name the fourth pie slice?: ")
-        sliceFourSize = int(input("From size of the third slice to 358, how large would you like your fourth pie slice to be?: "))
+        sliceFourSize = int(input("From 0 to (359-size of the first, second and third slice), how large would you like your fourth pie slice to be?: "))
         sliceFourColour = input("What would you like the colour of the fourth slice to be?: ")
 
         print("The fifth slice size will be based off your other four slices")
@@ -444,19 +458,19 @@ elif graphType == 2:
         sliceFiveColour = input("What would you like the colour of the fifth slice to be?: ")
 
         setFill(sliceOneColour)
-        pieSlice(200, 100, width, height, 0, sliceOneSize)
+        pieSlice(X_PIE_ORIGIN, Y_PIE_ORIGIN, WIDTH, HEIGHT, 0, sliceOneSize)
 
         setFill(sliceTwoColour)
-        pieSlice(200, 100, width, height, sliceOneSize, sliceTwoSize - sliceOneSize)
+        pieSlice(X_PIE_ORIGIN, Y_PIE_ORIGIN, WIDTH, HEIGHT, sliceOneSize, sliceTwoSize)
 
         setFill(sliceThreeColour)
-        pieSlice(200, 100, width, height, sliceTwoSize, sliceThreeSize - sliceTwoSize)
+        pieSlice(X_PIE_ORIGIN, Y_PIE_ORIGIN, WIDTH, HEIGHT, sliceTwoSize + sliceOneSize, sliceThreeSize)
 
         setFill(sliceFourColour)
-        pieSlice(200, 100, width, height, sliceThreeSize, sliceFourSize - sliceThreeSize)
+        pieSlice(X_PIE_ORIGIN, Y_PIE_ORIGIN, WIDTH, HEIGHT, sliceThreeSize + sliceTwoSize + sliceOneSize, sliceFourSize)
 
         setFill(sliceFiveColour)
-        pieSlice(200, 100, width, height, sliceFourSize, ORIGIN - sliceFourSize)
+        pieSlice(X_PIE_ORIGIN, Y_PIE_ORIGIN, WIDTH, HEIGHT, sliceFourSize + sliceThreeSize +sliceTwoSize + sliceOneSize, TOTALANGLE - sliceFourSize - sliceThreeSize - sliceTwoSize - sliceOneSize)
 
         setFont("Arial", "18")
         text(60, 50, sliceOneName)
@@ -485,19 +499,19 @@ elif graphType == 2:
         sliceOneColour = input("What would you like the colour of the first slice to be?: ")
 
         sliceTwoName = input("What would you like to name the second pie slice?: ")
-        sliceTwoSize = int(input("From size of the first slice to 356, how large would you like your second pie slice to be?: "))
+        sliceTwoSize = int(input("From 0 to (356-size of the first slice), how large would you like your second pie slice to be?: "))
         sliceTwoColour = input("What would you like the colour of the second slice to be?: ")
 
         sliceThreeName = input("What would you like to name the third pie slice?: ")
-        sliceThreeSize = int(input("From size of the second slice to 357, how large would you like your third pie slice to be?: "))
+        sliceThreeSize = int(input("From 0 to (357-size of the first and second slice), how large would you like your third pie slice to be?: "))
         sliceThreeColour = input("What would you like the colour of the third slice to be?: ")
 
         sliceFourName = input("What would you like to name the fourth pie slice?: ")
-        sliceFourSize = int(input("From size of the third slice to 358, how large would you like your fourth pie slice to be?: "))
+        sliceFourSize = int(input("From 0 to (358-size of the first, second and third slice), how large would you like your fourth pie slice to be?: "))
         sliceFourColour = input("What would you like the colour of the fourth slice to be?: ")
 
         sliceFiveName = input("What would you like to name the fifth pie slice?: ")
-        sliceFiveSize = int(input("From size of the fourth slice to 359, how large would you like your fifth pie slice to be?: "))
+        sliceFiveSize = int(input("From 0 to (359-size of the first, second, third and fourth slice), how large would you like your fifth pie slice to be?: "))
         sliceFiveColour = input("What would you like the colour of the fifth slice to be?: ")
 
         print("The sixth slice size will be based off your other five slices")
@@ -505,22 +519,22 @@ elif graphType == 2:
         sliceSixColour = input("What would you like the colour of the sixth slice to be?: ")
 
         setFill(sliceOneColour)
-        pieSlice(200, 100, width, height, 0, sliceOneSize)
+        pieSlice(X_PIE_ORIGIN, Y_PIE_ORIGIN, WIDTH, HEIGHT, 0, sliceOneSize)
 
         setFill(sliceTwoColour)
-        pieSlice(200, 100, width, height, sliceOneSize, sliceTwoSize - sliceOneSize)
+        pieSlice(X_PIE_ORIGIN, Y_PIE_ORIGIN, WIDTH, HEIGHT, sliceOneSize, sliceTwoSize)
 
         setFill(sliceThreeColour)
-        pieSlice(200, 100, width, height, sliceTwoSize, sliceThreeSize - sliceTwoSize)
+        pieSlice(X_PIE_ORIGIN, Y_PIE_ORIGIN, WIDTH, HEIGHT, sliceTwoSize + sliceOneSize, sliceThreeSize)
 
         setFill(sliceFourColour)
-        pieSlice(200, 100, width, height, sliceThreeSize, sliceFourSize - sliceThreeSize)
+        pieSlice(X_PIE_ORIGIN, Y_PIE_ORIGIN, WIDTH, HEIGHT, sliceThreeSize + sliceTwoSize + sliceOneSize, sliceFourSize)
 
         setFill(sliceFiveColour)
-        pieSlice(200, 100, width, height, sliceFourSize, sliceFiveSize - sliceFourSize)
+        pieSlice(X_PIE_ORIGIN, Y_PIE_ORIGIN, WIDTH, HEIGHT, sliceFourSize + sliceThreeSize + sliceTwoSize + sliceOneSize, sliceFiveSize)
 
         setFill(sliceSixColour)
-        pieSlice(200, 100, width, height, sliceFiveSize, ORIGIN - sliceFiveSize)
+        pieSlice(X_PIE_ORIGIN, Y_PIE_ORIGIN, WIDTH, HEIGHT, sliceFiveSize + sliceFourSize + sliceThreeSize + sliceTwoSize + sliceOneSize, TOTALANGLE - sliceFiveSize - sliceFourSize - sliceThreeSize - sliceTwoSize - sliceOneSize)
 
         setFont("Arial", "18")
         text(60, 50, sliceOneName)
@@ -547,6 +561,6 @@ elif graphType == 2:
 
         setFill(sliceSixColour)
         rect(42, 525, 40, 40)
-    print("Your chart is completed")
+    print("Your chart is completed") # To notify user the completion of their chart
 else:
     print("You have entered an invalid number. Please try again") # Just in case user actually DOES mis-input a number
